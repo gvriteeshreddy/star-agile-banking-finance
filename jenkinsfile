@@ -1,0 +1,38 @@
+
+pipeline {
+    agent any
+
+    tools {
+        // Use the configured Maven version (ensure M2_HOME is set correctly in Jenkins global tool config)
+        maven "maven"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Checkout from GitHub using the specified credentials
+                git credentialsId: 'newpass', url: 'https://github.com/StarAgileDevOpsTraining/star-agile-health-care.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Run Maven on a Unix agent
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+                // For Windows agent, uncomment the following line
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+        }
+        stage('Generate Test Reports'){
+            steps{
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/health-care/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            }
+        }
+        stage('Create Docker Image'){
+            steps{
+                sh 'docker build -t gvriteeshreddy/health-care:1.0 .'
+            }
+        }
+}
+}
