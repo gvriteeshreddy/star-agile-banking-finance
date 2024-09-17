@@ -9,7 +9,7 @@ pipeline {
 
     stages {
         
- stage('Build') {
+      stage('Build') {
             steps {
                 // Checkout from GitHub using the specified credentials
                 git 'https://github.com/gvriteeshreddy/star-agile-banking-finance.git'
@@ -19,6 +19,16 @@ pipeline {
 
                 // For Windows agent, uncomment the following line
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+        }
+    stage('Generate Test Reports'){
+            steps{
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/health-care/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            }
+        }
+        stage('Create Docker Image'){
+            steps{
+                sh 'docker build -t gvriteeshreddy/banking:1.0 .'
             }
         }
 
