@@ -8,10 +8,17 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        
+ stage('Build') {
             steps {
                 // Checkout from GitHub using the specified credentials
-                git credentialsId: 'newpass', url: 'https://github.com/gvriteeshreddy/star-agile-banking-finance.git'
+                git 'https://github.com/gvriteeshreddy/star-agile-banking-finance.git'
+
+                // Run Maven on a Unix agent
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+                // For Windows agent, uncomment the following line
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
 
