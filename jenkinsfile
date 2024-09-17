@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Checkout from GitHub using the specified credentials
-                git credentialsId: 'newpass', url: 'https://github.com/StarAgileDevOpsTraining/star-agile-health-care.git'
+                git credentialsId: 'newpass', url: 'https://github.com/gvriteeshreddy/star-agile-banking-finance.git'
             }
         }
 
