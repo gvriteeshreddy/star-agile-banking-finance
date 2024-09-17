@@ -43,7 +43,6 @@ pipeline {
                 sh 'docker push gvriteeshreddy/banking:1.0'
                     }    
             }
-}
 
        
 }
