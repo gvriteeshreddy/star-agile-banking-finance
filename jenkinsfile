@@ -46,7 +46,7 @@ pipeline {
       stage('Config & Deployment') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AwsAccess', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                dor('terraform-files'){
+                dir('terraform-files'){
                 sh 'sudo chmod 600 testing-keypair.pem'
                 sh 'terraform init'
                 sh 'terraform validate'
